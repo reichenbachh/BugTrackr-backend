@@ -4,6 +4,8 @@ const cors = require('cors');
 const colors = require('colors');
 const dotenv = require('dotenv');
 
+//@todo add ticket history feature
+
 //accessing environment vars
 dotenv.config({ path: './config/config.env' });
 

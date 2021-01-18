@@ -15,12 +15,19 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: false,
           },
-          projectLead: {
+          projectDesc: {
             type: Sequelize.STRING,
             allowNull: false,
-            validate: {
-              isEmail: true,
-            },
+          },
+          projectStage: {
+            type: Sequelize.ENUM(
+              'Pre-Alpha',
+              'Alpha',
+              'Beta',
+              'Release',
+              'Support'
+            ),
+            allowNull: false,
           },
           createdAt: {
             allowNull: false,

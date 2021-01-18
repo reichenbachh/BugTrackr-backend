@@ -1,11 +1,17 @@
-// "use strict";
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define(
     'Project',
     {
       projectName: DataTypes.STRING,
-      projectLead: DataTypes.STRING,
+      projectDesc: DataTypes.STRING,
+      projectStage: DataTypes.ENUM(
+        'Pre-Alpha',
+        'Alpha',
+        'Beta',
+        'Release',
+        'Support'
+      ),
     },
     {}
   );

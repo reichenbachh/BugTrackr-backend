@@ -11,13 +11,15 @@ module.exports = {
             type: Sequelize.DataTypes.UUID,
             defaultValue: Sequelize.literal('uuid_generate_v4()'),
           },
-          ticketDescription: {
-            type: Sequelize.STRING,
-          },
           ticketTitle: {
             type: Sequelize.STRING,
+            allowNull: false,
           },
-          userId: {
+          ticketDesc: {
+            type: Sequelize.STRING,
+            allowNull: false,
+          },
+          userID: {
             type: Sequelize.UUID,
             allowNull: false,
             references: {
@@ -35,8 +37,23 @@ module.exports = {
               as: 'projectID',
             },
           },
-          severity: {
+          assignedDev: {
+            type: Sequelize.STRING,
+          },
+          submittedDev: {
+            type: Sequelize.STRING,
+            allowNull: false,
+          },
+          ticketPriority: {
             type: Sequelize.ENUM('Low', 'Meduim', 'High'),
+            allowNull: false,
+          },
+          ticketStatus: {
+            type: Sequelize.ENUM('Open', 'Closed'),
+            allowNull: false,
+          },
+          ticketType: {
+            type: Sequelize.ENUM('Bug', 'Error', 'Feature request'),
             allowNull: false,
           },
           createdAt: {

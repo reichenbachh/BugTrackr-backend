@@ -4,11 +4,15 @@ module.exports = (sequelize, DataTypes) => {
   const Ticket = sequelize.define(
     'Ticket',
     {
-      ticketDescription: DataTypes.STRING,
       ticketTitle: DataTypes.STRING,
-      userId: DataTypes.UUID,
+      ticketDesc: DataTypes.STRING,
+      userID: DataTypes.UUID,
       projectID: DataTypes.UUID,
-      severity: DataTypes.ENUM('Low', 'Meduim', 'High'),
+      assignedDev: DataTypes.STRING,
+      submittedDev: DataTypes.STRING,
+      ticketPriority: DataTypes.ENUM('Low', 'Medium', 'High'),
+      ticketStatus: DataTypes.ENUM('Open', 'Closed'),
+      ticketType: DataTypes.ENUM('Bug', 'Error', 'Feature request'),
     },
     {}
   );

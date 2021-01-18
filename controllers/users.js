@@ -50,7 +50,7 @@ exports.loginUser = async (req, res) => {
       },
     });
     if (userExist === null) {
-      return responseCreator(401, 'Invalid credentials E', res, false, '');
+      return responseCreator(401, 'Invalid credentials', res, false, '');
     }
     //compare paswords
     const passwordisMatch = await compareHashedPassword(
@@ -59,7 +59,7 @@ exports.loginUser = async (req, res) => {
     );
     console.log(passwordisMatch);
     if (!passwordisMatch) {
-      return responseCreator(401, 'Invalide credentials P', res, false, '');
+      return responseCreator(401, 'Invalide credentials', res, false, '');
     }
 
     //generate JWT
