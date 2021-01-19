@@ -16,6 +16,7 @@ app.use(morgan('dev'));
 
 //route files
 const user = require('./routes/user');
+const project = require('./routes/project');
 
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'app' });
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 
 //mounting routers
 app.use('/auth', user);
+app.use('/project', project);
 
 let PORT = process.env.PORT || 50000;
 
