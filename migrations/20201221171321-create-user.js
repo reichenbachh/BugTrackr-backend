@@ -26,6 +26,12 @@ module.exports = {
               len: [6, 12],
             },
           },
+          profileImage: {
+            type: Sequelize.STRING,
+            validate: {
+              isUrl: true,
+            },
+          },
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,

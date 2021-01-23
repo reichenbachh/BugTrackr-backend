@@ -39,10 +39,26 @@ module.exports = {
           },
           assignedDev: {
             type: Sequelize.STRING,
+            references: {
+              model: 'Users',
+              key: 'email',
+              as: 'assignedDeveloper',
+            },
+            validate: {
+              isEmail: true,
+            },
           },
           submittedDev: {
             type: Sequelize.STRING,
             allowNull: false,
+            references: {
+              model: 'Users',
+              key: 'email',
+              as: 'Submitter',
+            },
+            validate: {
+              isEmail: true,
+            },
           },
           ticketPriority: {
             type: Sequelize.ENUM('Low', 'Meduim', 'High'),

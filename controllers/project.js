@@ -1,6 +1,8 @@
 const projectModel = require('../models').Project;
 const teamModel = require('../models').Team;
 const userModel = require('../models').User;
+const emailTransport = require('../utils/emailTransport');
+const sendEmail = require('../utils/emailTransport');
 
 exports.createProject = async (req, res) => {
   try {
@@ -16,10 +18,30 @@ exports.createProject = async (req, res) => {
       projectId: newProject.dataValues.id,
       role: 'Project Lead',
     });
-    console.log(newTeam);
     responseCreator(200, 'Project created', res, true, newProject.dataValues);
   } catch (error) {
     responseCreator(401, 'failed to create project', res, false, '');
+  }
+};
+
+exports.addDevToProject = async (req, res) => {
+  try {
+    const { userId, projectId } = req.query;
+    const { role, email, projectName } = req.body;
+
+    console.log(email);
+
+    // //create association between user and project
+    // teamModel.create({
+    //   userId,
+    //   projectId,
+    //   role,
+    // });
+    await sendEmail(email, projectName, role);
+    responseCreator(200, 'User invited to project', res, true, '');
+  } catch (error) {
+    console.log(error.original);
+    responseCreator(400, 'failed to add user to project', res, false, '');
   }
 };
 

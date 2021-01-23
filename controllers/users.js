@@ -1,10 +1,19 @@
 const userModel = require('../models').User;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
+const { query } = require('express');
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 exports.registerUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(req.b);
     //check if email already exists
     const emailExists = await userModel.findOne({
       where: {
@@ -35,6 +44,29 @@ exports.registerUser = async (req, res) => {
   } catch (error) {
     console.log(error);
     responseCreator(400, 'failed to register user', res, false, '');
+  }
+};
+
+exports.uploadProfileImage = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const imageData = await persistImageFromMemoryStream(req);
+
+    let profileImage = imageData.url;
+
+    await userModel.update(
+      { profileImage },
+      {
+        where: {
+          id: userId,
+        },
+      }
+    );
+    responseCreator(200, 'profile saved', res, true, '');
+    console.log(imageData);
+  } catch (error) {
+    console.log(error.original);
+    responseCreator(401, 'failed to save profile image', res, false, '');
   }
 };
 
@@ -81,7 +113,34 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+exports.deleteAccount = (req, res) => {
+  try {
+    const userId = req.query.userId;
+    userModel.destroy({
+      where: {
+        id: userId,
+      },
+    });
+    responseCreator(200, 'user deleted', res, true, '');
+  } catch (error) {
+    responseCreator(401, 'unable to delete account', res, true, '');
+  }
+};
+
 //helper functions
+const persistImageFromMemoryStream = (req) => {
+  return new Promise((resolve, reject) => {
+    let stream = cloudinary.uploader.upload_stream((error, result) => {
+      if (result) {
+        resolve(result);
+      } else {
+        reject(error);
+      }
+    });
+
+    streamifier.createReadStream(req.file.buffer).pipe(stream);
+  });
+};
 
 //return response
 const responseCreator = (statusCode, message, res, success, data) => {

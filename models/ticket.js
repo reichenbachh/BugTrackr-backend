@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'projectID',
       onDelete: 'CASCADE',
     });
-    Ticket.belongsTo(models.User, {
-      foreignKey: 'userId',
+    Ticket.belongsToMany(models.User, {
+      foreignKey: 'email',
       onDelete: 'CASCADE',
     });
   };
