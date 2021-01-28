@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define(
-    'Project',
+    "Project",
     {
       projectName: DataTypes.STRING,
       projectDesc: DataTypes.STRING,
       projectStage: DataTypes.ENUM(
-        'Pre-Alpha',
-        'Alpha',
-        'Beta',
-        'Release',
-        'Support'
+        "Pre-Alpha",
+        "Alpha",
+        "Beta",
+        "Release",
+        "Support"
       ),
     },
     {}
@@ -19,10 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Project.belongsToMany(models.User, {
       through: models.Team,
-      as: 'users',
-      foreignKey: 'projectId',
+      as: "users",
+      foreignKey: "projectId",
     });
-    Project.hasMany(models.Ticket, { as: 'tickets' });
+    Project.hasMany(models.Ticket, { as: "tickets", foreignKey: "projectId" });
   };
   return Project;
 };

@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.sequelize
       .query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";')
       .then(() => {
-        return queryInterface.createTable('Tickets', {
+        return queryInterface.createTable("Tickets", {
           id: {
             allowNull: false,
             primaryKey: true,
             type: Sequelize.DataTypes.UUID,
-            defaultValue: Sequelize.literal('uuid_generate_v4()'),
+            defaultValue: Sequelize.literal("uuid_generate_v4()"),
           },
           ticketTitle: {
             type: Sequelize.STRING,
@@ -19,30 +19,30 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: false,
           },
-          userID: {
+          userId: {
             type: Sequelize.UUID,
             allowNull: false,
             references: {
-              model: 'Users',
-              key: 'id',
-              as: 'userId',
+              model: "Users",
+              key: "id",
+              as: "tickets",
             },
           },
-          projectID: {
+          projectId: {
             type: Sequelize.UUID,
             allowNull: false,
             references: {
-              model: 'Projects',
-              key: 'id',
-              as: 'projectID',
+              model: "Projects",
+              key: "id",
+              as: "tickets",
             },
           },
           assignedDev: {
             type: Sequelize.STRING,
             references: {
-              model: 'Users',
-              key: 'email',
-              as: 'assignedDeveloper',
+              model: "Users",
+              key: "email",
+              as: "assignedDeveloper",
             },
             validate: {
               isEmail: true,
@@ -52,24 +52,24 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: false,
             references: {
-              model: 'Users',
-              key: 'email',
-              as: 'Submitter',
+              model: "Users",
+              key: "email",
+              as: "Submitter",
             },
             validate: {
               isEmail: true,
             },
           },
           ticketPriority: {
-            type: Sequelize.ENUM('Low', 'Meduim', 'High'),
+            type: Sequelize.ENUM("High", "Moderate", "Low"),
             allowNull: false,
           },
           ticketStatus: {
-            type: Sequelize.ENUM('Open', 'Closed'),
+            type: Sequelize.ENUM("Open", "Closed"),
             allowNull: false,
           },
           ticketType: {
-            type: Sequelize.ENUM('Bug', 'Error', 'Feature request'),
+            type: Sequelize.ENUM("Bug", "Error", "Feature request"),
             allowNull: false,
           },
           createdAt: {
@@ -84,6 +84,6 @@ module.exports = {
       });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Tickets');
+    await queryInterface.dropTable("Tickets");
   },
 };

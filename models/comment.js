@@ -1,19 +1,13 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define(
-    'Comment',
+    "Comment",
     {
       text: DataTypes.STRING,
-      ticketID: DataTypes.UUID,
+      ticketId: DataTypes.UUID,
     },
     {}
   );
-  Comment.associate = function (models) {
-    Comment.belongsTo(models.Ticket, {
-      foreignKey: 'ticketID',
-      as: 'ticket',
-    });
-    // associations can be defined here
-  };
+  Comment.associate = function (models) {};
   return Comment;
 };

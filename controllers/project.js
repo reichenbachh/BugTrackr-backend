@@ -20,6 +20,7 @@ exports.createProject = async (req, res) => {
     });
     responseCreator(200, 'Project created', res, true, newProject.dataValues);
   } catch (error) {
+    console.log(error.original);
     responseCreator(401, 'failed to create project', res, false, '');
   }
 };

@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.sequelize
       .query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";')
       .then(() => {
-        return queryInterface.createTable('Projects', {
+        return queryInterface.createTable("Projects", {
           id: {
             allowNull: false,
             primaryKey: true,
             type: Sequelize.DataTypes.UUID,
-            defaultValue: Sequelize.literal('uuid_generate_v4()'),
+            defaultValue: Sequelize.literal("uuid_generate_v4()"),
           },
           projectName: {
             type: Sequelize.STRING,
@@ -21,11 +21,11 @@ module.exports = {
           },
           projectStage: {
             type: Sequelize.ENUM(
-              'Pre-Alpha',
-              'Alpha',
-              'Beta',
-              'Release',
-              'Support'
+              "Pre-Alpha",
+              "Alpha",
+              "Beta",
+              "Release",
+              "Support"
             ),
             allowNull: false,
           },
@@ -41,6 +41,6 @@ module.exports = {
       });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Projects');
+    await queryInterface.dropTable("Projects");
   },
 };

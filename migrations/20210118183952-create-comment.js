@@ -1,23 +1,24 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Comments', {
+    await queryInterface.createTable("Comments", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       text: {
         type: Sequelize.STRING,
       },
-      ticketID: {
+      ticketId: {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
-          // Comment belongs to a ticket 1:1
-          model: 'Tickets',
-          key: 'id',
+          model: "Tickets",
+          key: "id",
+          as: "comments",
         },
       },
       createdAt: {
@@ -31,6 +32,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Comments');
+    await queryInterface.dropTable("Comments");
   },
 };
