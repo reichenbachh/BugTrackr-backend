@@ -1,26 +1,22 @@
-const validator = require('express-validator');
+const validator = require("express-validator");
 const body = validator.body;
 const validationResult = validator.validationResult;
 
 const userValidationRules = () => {
   return [
-    // username must be an email
-    body('email').isEmail().withMessage('This is not a valid email'),
     // password must be at least 6 chars long
-    body('password')
+    body("password")
       .isLength({ min: 6, max: 12 })
-      .withMessage('password has to be longer than 6 characters'),
+      .withMessage("password has to be longer than 6 characters"),
   ];
 };
 
 const projectValidatorRules = () => {
   return [
     //project description cannot be more than 50 characters long
-    body('projectDesc')
+    body("projectDesc")
       .isLength({ max: 100 })
-      .withMessage('Project description cannot be more than a 100 characters'),
-
-    body,
+      .withMessage("Project description cannot be more than a 100 characters"),
   ];
 };
 
@@ -38,7 +34,9 @@ const validate = (req, res, next) => {
   });
 };
 
+// eslint-disable-next-line
 module.exports = {
+  projectValidatorRules,
   userValidationRules,
   validate,
 };

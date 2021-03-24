@@ -11,6 +11,14 @@ module.exports = {
             type: Sequelize.DataTypes.UUID,
             defaultValue: Sequelize.literal('uuid_generate_v4()'),
           },
+          username: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+              isAlphanumeric: true,  
+            },
+          },
           email: {
             type: Sequelize.STRING,
             allowNull: false,

@@ -14,7 +14,7 @@ exports.createTicket = async (req, res) => {
 
     const { userId, projectId } = req.query;
 
-    const newTicket = await ticketModel.create({
+    await ticketModel.create({
       ticketTitle,
       ticketDesc,
       userId,
