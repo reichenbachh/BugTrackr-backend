@@ -101,6 +101,7 @@ class UserService {
           };
         }
 
+        //eslint-disable-next-line
         userExists = true;
         userPassword = usernameExists.dataValues.password;
       }
