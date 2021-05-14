@@ -1,93 +1,47 @@
-const ticketModel = require("../models").Ticket;
+const TicketService = require("../services/TicketService")
+
+const ticketService = new TicketService()
 
 exports.createTicket = async (req, res) => {
   try {
-    const {
-      ticketTitle,
-      ticketDesc,
-      assignedDev,
-      submittedDev,
-      ticketPriority,
-      ticketStatus,
-      ticketType,
-    } = req.body;
+    const serviceValue = await ticketService.createTicket(req.body, req.query)
 
-    const { userId, projectId } = req.query;
-
-    await ticketModel.create({
-      ticketTitle,
-      ticketDesc,
-      userId,
-      projectId,
-      assignedDev,
-      submittedDev,
-      ticketPriority,
-      ticketStatus,
-      ticketType,
-    });
-
-    responseCreator(200, "ticket created", res, true);
+    res.status(200).json(serviceValue)
   } catch (error) {
-    console.log(error.original);
-    responseCreator(401, "unable to create ticket", res, false, "");
+    res.status(400).json({
+      success: false,
+      msg: "unable to create ticket",
+    })
   }
-};
+}
 
 exports.updateTicket = async (req, res) => {
   try {
-    const {
-      ticketTitle,
-      ticketDesc,
-      assignedDev,
-      submittedDev,
-      ticketPriority,
-      ticketStatus,
-      ticketType,
-    } = req.body;
+    const serviceValue = await ticketService.updateTicket(
+      req.body,
+      req.query.id
+    )
 
-    const updatedTicketData = await ticketModel.update(
-      {
-        ticketTitle,
-        ticketDesc,
-        assignedDev,
-        submittedDev,
-        ticketPriority,
-        ticketStatus,
-        ticketType,
-      },
-      {
-        where: {
-          id: req.query.ticketId,
-        },
-      }
-    );
-    console.log(updatedTicketData);
-    responseCreator(200, "Ticket info updated", res, true, "");
+    res.status(200).json(serviceValue)
   } catch (error) {
-    console.log(error);
-    responseCreator(401, "unable to update ticket data", res, false, "");
+    console.log(error)
+    res.status(401).json({
+      success: false,
+      msg: "unable to update ticket",
+    })
   }
-};
+}
 
 exports.deleteTicket = async (req, res) => {
   try {
-    await ticketModel.destroy({
-      where: {
-        id: req.query.ticketId,
-      },
-    });
-    responseCreator(200, "Ticket deleted", res, true, "");
-  } catch (error) {
-    console.log(error.original || error);
-    responseCreator(401, "unable to delete", res, false, "");
-  }
-};
+    const serviceValue = await ticketService.deleteTicket(req.query.id)
 
-//helper functions
-const responseCreator = (statusCode, message, res, success, data) => {
-  return res.status(statusCode).json({
-    success: success,
-    msg: message,
-    data: data,
-  });
-};
+    res.status(200).json(serviceValue)
+  } catch (error) {
+    console.log(error.original || error)
+    res.status(404).json({
+      success: false,
+      msg: "unable to delete ticket",
+    })
+  }
+}
