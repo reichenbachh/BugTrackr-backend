@@ -4,6 +4,7 @@ const {
   loginUser,
   uploadProfileImage,
   deleteAccount,
+  validateAndFetchUser,
 } = require("../controllers/users")
 const {
   validate,
@@ -20,6 +21,7 @@ const router = express.Router()
 router.post("/register", registrationValidationRules(), validate, registerUser)
 router.post("/login", userValidationRules(), validate, loginUser)
 router.post("/uploadProfileImage", multerUploads, uploadProfileImage)
+router.get("/validateUser", validateAndFetchUser)
 router.delete("/deleteAccount", deleteAccount)
 
 module.exports = router

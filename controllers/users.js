@@ -29,6 +29,24 @@ exports.registerUser = async (req, res) => {
   }
 }
 
+exports.validateAndFetchUser = async (req, res) => {
+  try {
+    const { authorization } = req.headers
+
+    const serviceValue = await userService.validateUser(authorization)
+
+    res.status(200).json(serviceValue)
+  } catch (error) {
+    console.log(error)
+    res.status(401).json({
+      error,
+      msg: "failed to get user",
+      data: null,
+      token: null,
+    })
+  }
+}
+
 exports.uploadProfileImage = async (req, res) => {
   try {
     const serviceValue = await userService.updateProfileImage(

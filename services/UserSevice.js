@@ -64,6 +64,8 @@ class UserService {
 
       let userExists = false
       let userPassword
+      let user = {}
+      let id = ""
 
       if (isEmail) {
         //check if user exists
@@ -83,6 +85,8 @@ class UserService {
 
         userExists = true
         userPassword = emailExists.dataValues.password
+        user = { ...emailExists.dataValues }
+        id = emailExists.dataValues.id
       }
 
       if (!isEmail) {
@@ -104,6 +108,8 @@ class UserService {
         //eslint-disable-next-line
         userExists = true
         userPassword = usernameExists.dataValues.password
+        user = { ...usernameExists.dataValues }
+        id = usernameExists.dataValues.id
       }
 
       //compare paswords
@@ -120,15 +126,41 @@ class UserService {
       }
 
       //generate JWT
-      const token = this.genToken(userPassword)
+      const token = this.genToken(id)
       return {
         success: true,
         msg: "user logged in",
-        data: "",
+        data: user,
         token,
       }
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  async validateUser(token) {
+    const userID = this.decodeId(token)
+
+    const userExists = await userModel.findOne({
+      where: {
+        id: userID,
+      },
+    })
+
+    console.log(userExists)
+
+    if (!userExists) {
+      return {
+        success: false,
+        msg: "token expired",
+        data: "",
+      }
+    }
+
+    return {
+      success: true,
+      msg: "user is authorzed",
+      data: userExists.dataValues,
     }
   }
 
@@ -175,6 +207,13 @@ class UserService {
 
   //helper functions
   //generate json web token
+
+  decodeId(token) {
+    const decodedValue = jwt.verify(token, process.env.JWT_SECRET)
+
+    return decodedValue.id
+  }
+
   genToken(id) {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
