@@ -17,6 +17,19 @@ exports.createProject = async (req, res) => {
   }
 };
 
+exports.getProjects = async (req, res) => {
+  try {
+    const serviceValue = await projectService.getProjects(req.params);
+
+    res.status(200).json(serviceValue);
+  } catch (error) {
+    console.log(error.original);
+    res.status(400).json({
+      success: false,
+    });
+  }
+};
+
 exports.addDevToProject = async (req, res) => {
   try {
     const serviceValue = await projectService.addUserToProject(

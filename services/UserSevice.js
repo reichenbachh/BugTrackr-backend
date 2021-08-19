@@ -161,7 +161,6 @@ class UserService {
         data: "",
       };
     }
-
     const newtoken = this.genToken(userExists.dataValues.id);
 
     return {
