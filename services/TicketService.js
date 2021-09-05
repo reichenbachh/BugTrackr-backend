@@ -1,4 +1,4 @@
-const ticketModel = require("../models").Ticket
+const ticketModel = require("../models").Ticket;
 
 class TicketService {
   async createTicket(dataObject, queryObject) {
@@ -11,9 +11,11 @@ class TicketService {
         ticketPriority,
         ticketStatus,
         ticketType,
-      } = dataObject
+      } = dataObject;
 
-      const { userId, projectId } = queryObject
+      console.log(dataObject);
+
+      const { userId, projectId } = queryObject;
 
       await ticketModel.create({
         ticketTitle,
@@ -25,14 +27,14 @@ class TicketService {
         ticketPriority,
         ticketStatus,
         ticketType,
-      })
+      });
 
       return {
         success: true,
         msg: "ticket created",
-      }
+      };
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -46,7 +48,7 @@ class TicketService {
         ticketPriority,
         ticketStatus,
         ticketType,
-      } = dataObject
+      } = dataObject;
 
       await ticketModel.update(
         {
@@ -63,13 +65,13 @@ class TicketService {
             id,
           },
         }
-      )
+      );
       return {
         success: true,
         msg: "ticket updated",
-      }
+      };
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -79,15 +81,15 @@ class TicketService {
         where: {
           id: id,
         },
-      })
+      });
       return {
         success: true,
         msg: "ticket deleted",
-      }
+      };
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 }
 
-module.exports = TicketService
+module.exports = TicketService;
