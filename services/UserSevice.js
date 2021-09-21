@@ -78,7 +78,7 @@ class UserService {
         if (!emailExists) {
           return {
             success: false,
-            msg: "invalid credentials",
+            msg: "invalid credentials e",
             data: "",
           };
         }
@@ -100,7 +100,7 @@ class UserService {
         if (!usernameExists) {
           return {
             success: false,
-            msg: "invalid credentials",
+            msg: "invalid credentials p",
             data: "",
           };
         }

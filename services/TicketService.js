@@ -13,8 +13,6 @@ class TicketService {
         ticketType,
       } = dataObject;
 
-      console.log(dataObject);
-
       const { userId, projectId } = queryObject;
 
       await ticketModel.create({
@@ -38,27 +36,31 @@ class TicketService {
     }
   }
 
+  async getTicket(id) {
+    try {
+      const ticket = await ticketModel.findOne({
+        where: {
+          id,
+        },
+      });
+
+      return {
+        success: true,
+        msg: "ticket fetched",
+        data: ticket.dataValues,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async updateTicket(dataObject, id) {
     try {
-      const {
-        ticketTitle,
-        ticketDesc,
-        assignedDev,
-        submittedDev,
-        ticketPriority,
-        ticketStatus,
-        ticketType,
-      } = dataObject;
+      const { ticketStatus } = dataObject;
 
       await ticketModel.update(
         {
-          ticketTitle,
-          ticketDesc,
-          assignedDev,
-          submittedDev,
-          ticketPriority,
           ticketStatus,
-          ticketType,
         },
         {
           where: {

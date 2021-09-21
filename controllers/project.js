@@ -36,6 +36,11 @@ exports.addDevToProject = async (req, res) => {
       req.body,
       req.query
     );
+
+    if (serviceValue.success === false) {
+      return res.status(401).json(serviceValue);
+    }
+
     res.status(200).json(serviceValue);
   } catch (error) {
     console.log(error.original);

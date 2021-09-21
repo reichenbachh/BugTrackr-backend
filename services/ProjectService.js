@@ -69,10 +69,25 @@ class ProjectService {
 
   async addUserToProject(dataObject, queryObject) {
     try {
-      const { userId, projectId } = queryObject;
+      const { projectId } = queryObject;
       const { role, email, projectName } = dataObject;
 
-      console.log(email);
+      const _isRegisteredUser = await userModel.findOne({
+        where: {
+          email,
+        },
+      });
+
+      console.log(_isRegisteredUser);
+
+      if (!_isRegisteredUser) {
+        return {
+          success: false,
+          msg: "This user is not a registered user",
+        };
+      }
+
+      const userId = _isRegisteredUser.dataValues.id;
 
       //create association between user and project
       await teamModel.create({
@@ -80,10 +95,15 @@ class ProjectService {
         projectId,
         role,
       });
-      await sendEmail(email, projectName, role);
+      // await sendEmail(email, projectName, role);
       return {
         success: true,
         msg: "user added to project",
+        data: {
+          email,
+          role,
+          userId,
+        },
       };
     } catch (error) {
       console.log(error);
